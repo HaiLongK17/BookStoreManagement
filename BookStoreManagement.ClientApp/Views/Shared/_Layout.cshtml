@@ -1,0 +1,218 @@
+﻿@using BookStoreManagement.ClientApp.Services.UserService
+@inject IUserService userService
+
+@{
+   var currentUser = await userService.GetUser();
+}
+
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>@ViewData["Title"] - BookStore</title>
+   <!-- Favicons -->
+   <link rel="shortcut icon" href="~/favicon.ico">
+   <link rel="apple-touch-icon" href="~/client/images/icon.png">
+
+   <!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+   <!-- Stylesheets -->
+   <link rel="stylesheet" href="~/client/css/bootstrap.min.css">
+   <link rel="stylesheet" href="~/client/css/plugins.css">
+   <link rel="stylesheet" href="~/client/css/style.css">
+
+   <!-- Cusom css -->
+   <link rel="stylesheet" href="~/client/css/custom.css">
+
+   <!-- Modernizer js -->
+   <script src="~/client/js/vendor/modernizr-3.5.0.min.js"></script>
+</head>
+<body>
+   <div class="wrapper" id="wrapper">
+
+      <!-- Header -->
+      <header id="wn__header" class="header__area header__absolute sticky__header">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-md-6 col-sm-6 col-6 col-lg-2">
+                  <div class="logo">
+                     <a asp-area="Public" asp-controller="Home" asp-action="Index">
+                        <img src="~/client/images/logo/logo.png" alt="logo images">
+                     </a>
+                  </div>
+               </div>
+               <div class="col-lg-8 d-none d-lg-block">
+                  <nav class="mainmenu__nav">
+                     <ul class="meninmenu d-flex justify-content-start">
+                        <li><a asp-area="Public" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        @if (currentUser != null && currentUser.Role == "SiteOwner")
+                        {
+                           <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+                        }
+                     </ul>
+                  </nav>
+               </div>
+               <div class="col-md-6 col-sm-6 col-6 col-lg-2">
+                  <ul class="header__sidebar__right d-flex justify-content-end align-items-center">
+                     @await RenderSectionAsync("SearchButton", required: false)
+                     <li class="wishlist"><a href="#"></a></li>
+                     <li class="shopcart">
+                        <a class="cartbox_active" href="#"><span class="product_qun">0</span></a>
+                        <!-- Start Shopping Cart -->
+                        <div class="block-minicart minicart__active">
+                           <div class="minicart-content-wrapper">
+                              <div class="micart__close">
+                                 <span>close</span>
+                              </div>
+                              @await RenderSectionAsync("Cart", required: false)
+                           </div>
+                        </div>
+                        <!-- End Shopping Cart -->
+                     </li>
+                     <li class="setting__bar__icon">
+                        <a class="setting__active" href="#"></a>
+                        <div class="searchbar__content setting__block">
+                           <div class="content-inner">
+                              <div class="switcher-currency">
+                                 <strong class="label switcher-label">
+                                    <span>My Account</span>
+                                 </strong>
+                                 <div class="switcher-options">
+                                    <div class="switcher-currency-trigger">
+                                       <div class="setting__menu">
+                                          @*<partial name="_LoginPartial" />*@
+                                          @if (currentUser != null)
+                                          {
+                                             <span><a asp-area="Admin" asp-controller="Account" asp-action="Index">Hi! @currentUser.DisplayName</a></span>
+                                             <span><a href="#">My Wishlist</a></span>
+                                             <br />
+                                             <form method="post" asp-area="Authentication" asp-controller="Auth" asp-action="logout">
+                                                <span><button class="form-control" type="submit">Log Out</button></span>
+                                             </form>
+                                          }
+                                          else
+                                          {
+                                             <span><a asp-area="Authentication" asp-controller="Auth" asp-action="Login">Sign In</a></span>
+                                             <span><a asp-area="Authentication" asp-controller="Auth" asp-action="Register">Create An Account</a></span>
+                                          }
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+            <!-- Start Mobile Menu -->
+            <div class="row d-none">
+               <div class="col-lg-12 d-none">
+                  <nav class="mobilemenu__nav">
+                     <ul class="meninmenu">
+                        <li><a asp-area="Public" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="Public" asp-controller="Home" asp-action="ShopGrid">Shop</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                     </ul>
+                  </nav>
+               </div>
+            </div>
+            <!-- End Mobile Menu -->
+            <div class="mobile-menu d-block d-lg-none">
+            </div>
+            <!-- Mobile Menu -->
+         </div>
+      </header>
+      <!-- //Header -->
+      <!-- Start Search Popup -->
+      @await RenderSectionAsync("Search", required: false)
+      <!-- End Search Popup -->
+      @await RenderSectionAsync("Slide", required: false)
+
+      @await RenderSectionAsync("NewProduct", required: false)
+
+      @await RenderSectionAsync("NewsLetter", required: false)
+
+      @RenderBody()
+
+      <!-- Footer Area -->
+      <footer id="wn__footer" class="footer__area bg__cat--8 brown--color">
+         <div class="footer-static-top">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="footer__widget footer__menu">
+                        <div class="ft__logo">
+                           <a asp-area="Public" asp-controller="Home" asp-action="Index">
+                              <img src="~/client/images/logo/3.png" alt="logo">
+                           </a>
+                           <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered duskam alteration variations of passages</p>
+                        </div>
+                        <div class="footer__content">
+                           <ul class="social__net social__net--2 d-flex justify-content-center">
+                              <li><a href="#"><i class="bi bi-facebook"></i></a></li>
+                              <li><a href="#"><i class="bi bi-google"></i></a></li>
+                              <li><a href="#"><i class="bi bi-twitter"></i></a></li>
+                              <li><a href="#"><i class="bi bi-linkedin"></i></a></li>
+                              <li><a href="#"><i class="bi bi-youtube"></i></a></li>
+                           </ul>
+                           <ul class="mainmenu d-flex justify-content-center">
+                              <li><a href="#">Trending</a></li>
+                              <li><a href="#">Best Seller</a></li>
+                              <li><a href="#">All Product</a></li>
+                              <li><a href="#">Wishlist</a></li>
+                              <li><a href="#">Blog</a></li>
+                              <li><a href="#">Contact</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="copyright__wrapper">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                     <div class="copyright">
+                        <div class="copy__right__inner text-left">
+                           <p>Copyright <i class="fa fa-copyright"></i> <a href="#">Boighor.</a> All Rights Reserved</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                     <div class="payment text-right">
+                        <img src="~/client/images/icons/payment.png" alt="" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+
+      <!-- QUICKVIEW PRODUCT -->
+      <div id="quickview-wrapper">
+         @await RenderSectionAsync("QuickView", required: false)
+      </div>
+      <!-- END QUICKVIEW PRODUCT -->
+   </div>
+
+   <!-- JS Files -->
+   <script src="~/client/js/vendor/jquery-3.2.1.min.js"></script>
+   <script src="~/client/js/popper.min.js"></script>
+   <script src="~/client/js/bootstrap.min.js"></script>
+   <script src="~/client/js/plugins.js"></script>
+   <script src="~/client/js/active.js"></script>
+   @await RenderSectionAsync("Scripts", required: false)
+   @await Component.InvokeAsync("Notyf")
+</body>
+</html>

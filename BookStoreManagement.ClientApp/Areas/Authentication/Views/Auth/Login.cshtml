@@ -1,0 +1,29 @@
+﻿@using BookStoreManagement.ClientApp.Models.DTO
+@model LoginDto
+@{
+   ViewData["Title"] = "Login";
+}
+
+<form method="post" class="form" id="login">
+   <h1 class="form-title">Login</h1>
+   <div class="form-message form-message--error"></div>
+   <div class="form-input-group">
+      <input type="text" asp-for="Account" class="form-input" autofocus placeholder="Phone or email">
+      <div class="form-input-error-message"></div>
+   </div>
+   <div class="form-input-group">
+      <input type="password" asp-for="Password" class="form-input" autofocus placeholder="Password">
+      <div class="form-input-error-message"></div>
+   </div>
+   <div class="inputGroup">
+      <input id="rememberMe" name="rememberMe" type="checkbox" asp-for="RememberMe" />
+      <label for="rememberMe">RememberMe?</label>
+   </div>
+   <button class="form-button" type="submit" asp-area="Authentication" asp-controller="Auth" asp-action="Login">Continue</button>
+   <p class="form-text">
+      <a href="#" class="form-link">Forgot your password?</a>
+   </p>
+   <p class="form-text">
+      <a class="form-link" asp-area="Authentication" asp-controller="Auth" asp-action="Register">Don't have an account? Create account</a>
+   </p>
+</form>

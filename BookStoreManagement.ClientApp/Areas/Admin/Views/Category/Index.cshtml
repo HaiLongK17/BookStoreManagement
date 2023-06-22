@@ -1,0 +1,35 @@
+﻿@using BookStoreManagement.ClientApp.Models.DTO
+@model IEnumerable<CategoryDto>
+
+@{
+   ViewData["Title"] = "Book Category";
+}
+
+<section class="content-header">
+   <div class="container-fluid">
+      <div class="row mb-2">
+         <div class="col-sm-6">
+            <h1><strong>List Book Categories</strong></h1>
+         </div>
+         <div class="col-sm-6"></div>
+      </div>
+   </div>
+</section>
+<section class="content">
+   <div class="container-fluid">
+      <div class="spinner-overlay" id="spinner-overlay">
+         <div class="spinner"></div>
+      </div>
+      <div class="card" id="card-content">
+         <div class="card-header">
+            <button class="btn btn-success float-right" type="button"
+                    onclick="showCommonModal('@Url.Action("AddOrEdit", "Category", null, Context.Request.Scheme)', 'Add New Category')">
+               <i class="fas fa-plus"></i>&emsp;Add Category
+            </button>
+         </div>
+         <div id="view-content">
+            @await Html.PartialAsync("_CategoryContent", Model)
+         </div>
+      </div>
+   </div>
+</section>

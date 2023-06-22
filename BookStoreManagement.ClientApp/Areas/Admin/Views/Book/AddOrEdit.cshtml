@@ -1,0 +1,130 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model BookViewModel
+
+@{
+   Layout = null;
+}
+
+<form method="post" id="AddOrEditBookModal" asp-action="AddOrEdit" asp-controller="Book" onsubmit="return AjaxPost(this);">
+   <div class="row">
+      <div class="col-md-8" style="border-right: 1px solid #ced4da;">
+         <input type="hidden" asp-for="Id" />
+         <input type="hidden" asp-for="CurrentPage" />
+         <input type="hidden" asp-for="PhotoUrl" />
+         <input type="hidden" asp-for="CurrentBook.Title" />
+         @Html.ListBoxFor(x => x.CurrentBook.CategoryIds,
+         new MultiSelectList(Model.Addition.Categories, "Id", "Name"),
+         new { style = "display: none;" })
+         <input type="hidden" asp-for="CurrentBook.AuthorId" />
+         <input type="hidden" asp-for="CurrentBook.PublisherId" />
+         <input type="hidden" asp-for="CurrentBook.Price" />
+         <input type="hidden" asp-for="CurrentBook.Quantity" />
+         <input type="hidden" asp-for="CurrentBook.IsActice" />
+         <input type="hidden" asp-for="CurrentBook.Summary" />
+         <div class="form-group">
+            <label asp-for="HandleBook.Title">Book Title</label>
+            <input type="text" asp-for="HandleBook.Title" placeholder="Book Title" required class="form-control" />
+         </div>
+         <div class="form-group">
+            <label>Book Categories</label>
+            @Html.ListBoxFor(x => x.HandleBook.CategoryIds,
+            new MultiSelectList(Model.Addition.Categories, "Id", "Name"),
+            new { @class = "select2", multiple = "multiple", required = "required", id = "CategoryIDs" })
+         </div>
+         <div class="row">
+            <div class="col-6">
+               <div class="form-group">
+                  <label>Book Author</label>
+                  @Html.DropDownListFor(x => x.HandleBook.AuthorId,
+                  new SelectList(Model.Addition.Authors, "Id", "Name"),
+                  new { @class = "select2", required = "required", id = "AuthorId" })
+               </div>
+            </div>
+            <div class="col-6">
+               <div class="form-group">
+                  <label>Book Publisher</label>
+                  @Html.DropDownListFor(x => x.HandleBook.PublisherId,
+                  new SelectList(Model.Addition.Publishers, "Id", "Name"),
+                  new { @class = "select2", required = "required", id = "PublisherId" })
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-5">
+               <div class="form-group">
+                  <label>Price</label>
+                  <input type="text" asp-for="HandleBook.Price" required placeholder="Price of book" class="form-control" />
+               </div>
+            </div>
+            <div class="col-4">
+               <div class="form-group">
+                  <label>Quantity</label>
+                  <input type="number" asp-for="HandleBook.Quantity" required placeholder="Quantity" class="form-control" />
+               </div>
+            </div>
+            <div class="col-3">
+               <div class="form-group">
+                  <label>Active?</label>
+                  <input type="checkbox" id="active-book" asp-for="HandleBook.IsActice"
+                         data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
+                         data-on="Active" data-off="InActive" data-width="100">
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+            <label>Book Cover</label>
+            <div class="custom-file">
+               <input asp-for="HandleBook.File" type="file" class="custom-file-input" id="BookCover">
+               <label class="custom-file-label" for="BookCover">Choose file</label>
+            </div>
+         </div>
+      </div>
+      <div class=col-md-4 style="border-bottom: 1px solid #ced4da;">
+         @if (string.IsNullOrEmpty(Model.PhotoUrl))
+         {
+            <img class="img-fluid pad" id="BookCoverPreview" src="https://res.cloudinary.com/dglgzh0aj/image/upload/v1634554341/BookStore/bookcovers/default/blank_book_cover.png" alt="Book cover" />
+         }
+         else
+         {
+            <img class="img-fluid pad" id="BookCoverPreview" src="@Model.PhotoUrl" alt="Book cover" />
+         }
+      </div>
+   </div>
+   <div class="form-group">
+      <label>Content</label>
+      @Html.TextAreaFor(x => x.HandleBook.Summary, new { @id = "SummernoteDescription" })
+   </div>
+</form>
+<div class="modal-footer text-right">
+   <button type="button" class="btn btn-secondary" onclick="hideModal('common-form-modal')">Close</button>
+   <button type="submit" class="btn btn-success" form="AddOrEditBookModal">Save Changes</button>
+</div>
+
+<script>
+   $(document).ready(function() {
+      $('#AuthorId').select2();
+      $('#PublisherId').select2();
+      $('#CategoryIDs').select2();
+      $('#SummernoteDescription').summernote({
+          height: 150
+      });
+      $('#active-book').bootstrapToggle({
+           on: 'Active',
+           off: 'InActive'
+      });
+   });
+</script>
+<script>
+   function readURL(input) {
+       if (input.files && input.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+               $('#BookCoverPreview').attr('src', e.target.result);
+           }
+           reader.readAsDataURL(input.files[0]);
+       }
+   }
+   $("#BookCover").change(function () {
+       readURL(this);
+   });
+</script>

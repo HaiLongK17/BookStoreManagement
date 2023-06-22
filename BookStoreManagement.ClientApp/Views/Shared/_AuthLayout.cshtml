@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta charset="utf-8">
+   <title>@ViewData["Title"]</title>
+   <link rel="stylesheet" href="~/client/css/auth.css">
+</head>
+<body>
+   <div class="container">
+      @RenderBody()
+   </div>
+
+   <script src="~/client/js/vendor/jquery-3.2.1.min.js"></script>
+   @RenderSection("Scripts", required: false)
+   @await Component.InvokeAsync("Notyf")
+</body>

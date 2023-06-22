@@ -1,0 +1,47 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model UserViewModel
+
+@{
+   Layout = null;
+}
+
+<form method="post" id="AddUserModal" asp-action="Add" asp-controller="User" onsubmit="return AjaxPost(this);">
+   <div class="form-group">
+      <label asp-for="NewUser.DisplayName"></label>
+      <input asp-for="NewUser.DisplayName" class="form-control">
+   </div>
+   <div class="form-group">
+      <label asp-for="NewUser.Email"></label>
+      <input asp-for="NewUser.Email" class="form-control">
+   </div>
+   <div class="row">
+      <div class="col-md-6">
+         <div class="form-group">
+            <label asp-for="NewUser.PhoneNumber"></label>
+            <input asp-for="NewUser.PhoneNumber" class="form-control">
+         </div>
+      </div>
+      <div class="col-md-6">
+         <div class="form-group">
+            <label asp-for="NewUser.Role"></label>
+            @Html.DropDownListFor(x => x.NewUser.Role,
+            new SelectList(Model.Roles, "Name", "Name"),
+            new { @class = "select2", id = "SelectRole" })
+         </div>
+      </div>
+   </div>
+   <div class="form-group">
+      <label>Password <strong>default: BookStore@0110)</strong></label>
+      <input asp-for="NewUser.Password" class="form-control">
+   </div>
+</form>
+<div class="modal-footer text-right">
+   <button type="button" class="btn btn-secondary" onclick="hideModal('common-form-modal')">Close</button>
+   <button type="submit" class="btn btn-success" form="AddUserModal">Save Changes</button>
+</div>
+
+<script>
+   $(document).ready(function() {
+      $('#SelectRole').select2();
+   });
+</script>

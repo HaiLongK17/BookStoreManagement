@@ -1,0 +1,36 @@
+﻿@using BookStoreManagement.ClientApp.Models.DTO
+@model PaginatedResult<List<BookDto>>
+
+@{
+   ViewData["Title"] = "Book";
+}
+
+<section class="content-header">
+   <div class="container-fluid">
+      <div class="row mb-2">
+         <div class="col-sm-6">
+            <h1><strong>List Books</strong></h1>
+         </div>
+         <div class="col-sm-6"></div>
+      </div>
+   </div>
+</section>
+<section class="content">
+   <div class="container-fluid">
+      <div class="spinner-overlay" id="spinner-overlay">
+         <div class="spinner"></div>
+      </div>
+      <div class="card" id="card-content">
+         <div class="card-header">
+            <button class="btn btn-success float-right" type="button"
+                    onclick="showCommonModal('@Url.Action("AddOrEdit", "Book", 
+                    new{id = 0, currentPage = Model.Pagination.CurrentPage}, Context.Request.Scheme)', 'Add New Book')">
+               <i class="fas fa-plus"></i>&emsp;Add Book
+            </button>
+         </div>
+         <div id="view-content">
+            @await Html.PartialAsync("_BookContent", Model)
+         </div>
+      </div>
+   </div>
+</section>

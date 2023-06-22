@@ -1,0 +1,69 @@
+﻿@using BookStoreManagement.ClientApp.Models.DTO
+@model IEnumerable<UserDto>
+
+<div class="card-body table-responsive p-0" id="author-table">
+   @if (Model.Count() > 0)
+   {
+      <table class="table table-bordered table-hover text-nowrap">
+         <thead class="bg-dark">
+            <tr class="text-white">
+               <th style="text-align: center; vertical-align: middle">Name</th>
+               <th style="text-align: center; vertical-align: middle">Email</th>
+               <th style="text-align: center; vertical-align: middle">Phone Number</th>
+               <th style="text-align: center; vertical-align: middle">Role</th>
+               <th style="text-align: center; vertical-align: middle">Status</th>
+               <th style="text-align: center; vertical-align: middle">Action</th>
+            </tr>
+         </thead>
+         <tbody>
+            @foreach (var item in Model)
+            {
+               <form method="post" id="@item.Id" asp-action="LockOrUnlock" asp-controller="User" onsubmit="return AjaxPost(this);"
+               asp-route-id="@item.Id" asp-route-displayName="@item.DisplayName" asp-route-isLocked="@item.Status"></form>
+               <tr>
+                  <td style="text-align: center; vertical-align: middle">@item.DisplayName</td>
+                  <td style="text-align: center; vertical-align: middle">@item.Email</td>
+                  <td style="text-align: center; vertical-align: middle">@item.PhoneNumber</td>
+                  <td style="text-align: center; vertical-align: middle">@item.Role</td>
+                  <td class="project-state" style="text-align: center; vertical-align: middle">
+                     @if (!item.Status)
+                     {
+                        <span class="badge badge-danger">Locked</span>
+                     }
+                     else
+                     {
+                        <span class="badge badge-success">Active</span>
+                     }
+                  </td>
+                  <td class="project-actions text-center" style="width: 100px; text-align: center; vertical-align: middle">
+                     <button class="btn btn-info btn-sm mr-1 ml-1" title="Edit" type="button"
+                       onclick="showCommonModal('@Url.Action("Edit", "User", new { id = item.Id }, Context.Request.Scheme)', 'Update User')">
+                        <i class="fas fa-pencil-alt"></i>
+                     </button>
+                     @if (!item.Status)
+                     {
+                        <button class="btn btn-danger btn-sm mr-1 ml-1" title="Unlock" type="submit" form="@item.Id">
+                           <i class="fas fa-lock"></i>
+                        </button>
+                     }
+                     else
+                     {
+                        <button class="btn btn-success btn-sm mr-1 ml-1" title="Lock" type="submit" form="@item.Id">
+                           <i class="fas fa-lock-open"></i>
+                        </button>
+                     }
+                     <button class="btn btn-primary btn-sm mr-1 ml-1" title="Change Password" type="button"
+                       onclick="showCommonModal('@Url.Action("ChangePassword", "User", new { id = item.Id }, Context.Request.Scheme)', 'Change Password')">
+                        <i class="fas fa-key"></i>
+                     </button>
+                  </td>
+               </tr>
+            }
+         </tbody>
+      </table>
+   }
+   else
+   {
+      <p>Have no any User...</p>
+   }
+</div>

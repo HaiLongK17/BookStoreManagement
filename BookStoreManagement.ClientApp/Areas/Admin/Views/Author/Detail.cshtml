@@ -1,0 +1,26 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model AuthorViewModel
+
+@{
+   Layout = null;
+}
+
+<div class="form-group">
+   <label asp-for="Author.Name"></label>
+   <input asp-for="Author.Name" class="form-control">
+</div>
+<div class="form-group">
+   <label asp-for="Author.Description"></label>
+   @Html.TextAreaFor(x => x.Author.Description, new { @id = "SummernoteDescription" })
+</div>
+<div class="modal-footer text-right">
+   <button type="button" class="btn btn-secondary" onclick="hideModal('common-form-modal')">Close</button>
+</div>
+
+<script>
+   $(document).ready(function() {
+      $('#SummernoteDescription').summernote({
+          height: 150
+      });
+   });
+</script>

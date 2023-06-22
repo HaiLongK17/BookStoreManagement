@@ -1,0 +1,217 @@
+body {
+    --color-primary: #009579;
+    --color-primary-dark: #007f67;
+    --color-secondary: #252c6a;
+    --color-error: #cc3333;
+    --color-success: #4bb544;
+    --border-radius: 4px;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background-size: cover;
+}
+
+.container {
+    width: 400px;
+    max-width: 400px;
+    margin: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    background: #ffffff;
+}
+
+.container,
+.form-input,
+.form-button {
+    font: 500 1rem 'Quicksand', sans-serif;
+}
+
+.form--hidden {
+    display: none;
+}
+
+.form > *:first-child {
+    margin-top: 0;
+}
+
+.form > *:last-child {
+    margin-bottom: 0;
+}
+
+.form-title {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-message {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.form-message--success {
+    color: var(--color-success);
+}
+
+.form-message--error {
+    color: var(--color-error);
+}
+
+.form-input-group {
+    margin-bottom: 1rem;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    border: 1px solid #dddddd;
+    outline: none;
+    background: #eeeeee;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+    .form-input:focus {
+        border-color: #e59285;
+        background: #ffffff;
+    }
+
+.form-input--error {
+    color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.form-input-error-message {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-error);
+}
+
+.form-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #ffffff;
+    border: none;
+    border-radius: var(--border-radius);
+    outline: none;
+    cursor: pointer;
+    background: #e59285;
+}
+
+    .form-button:hover {
+        background: #e59285;
+    }
+
+    .form-button:active {
+        transform: scale(0.98);
+    }
+
+.form-text {
+    text-align: center;
+}
+
+.form-link {
+    color: var(--color-secondary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    .form-link:hover {
+        text-decoration: underline;
+    }
+
+.inputGroup {
+    background-color: #fff;
+    display: block;
+    margin: 10px 0;
+    position: relative;
+}
+
+    .inputGroup label {
+        padding: 12px 30px;
+        display: block;
+        text-align: left;
+        color: #3c454c;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        transition: color 200ms ease-in;
+        overflow: hidden;
+    }
+
+        .inputGroup label:before {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            content: '';
+            background-color: #e59285;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale3d(1, 1, 1);
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .inputGroup label:after {
+            width: 32px;
+            height: 32px;
+            content: '';
+            border: 2px solid #d1d7dc;
+            background-color: #fff;
+            background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+            background-repeat: no-repeat;
+            background-position: 2px 3px;
+            border-radius: 50%;
+            z-index: 2;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: all 200ms ease-in;
+        }
+
+    .inputGroup input:checked ~ label {
+        color: #fff;
+    }
+
+        .inputGroup input:checked ~ label:before {
+            transform: translate(-50%, -50%) scale3d(56, 56, 1);
+            opacity: 1;
+        }
+
+        .inputGroup input:checked ~ label:after {
+            background-color: #3c454c;
+            border-color: #3c454c;
+        }
+
+    .inputGroup input {
+        width: 32px;
+        height: 32px;
+        order: 1;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        visibility: hidden;
+    }
+.form {
+    padding: 0 16px;
+    max-width: 550px;
+    margin: 50px auto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 36px;
+}

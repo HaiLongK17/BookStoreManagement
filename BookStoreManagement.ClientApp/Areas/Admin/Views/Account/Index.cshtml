@@ -1,0 +1,111 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model AccountViewModel
+
+@{
+   ViewData["Title"] = "Profile";
+}
+
+<section class="content-header">
+   <div class="container-fluid">
+      <div class="row mb-2">
+         <div class="col-sm-6">
+            <h1><strong>User Profile</strong></h1>
+         </div>
+         <div class="col-sm-6"></div>
+      </div>
+   </div>
+</section>
+<section class="content">
+   <div class="container-fluid">
+      <div class="spinner-overlay" id="spinner-overlay">
+         <div class="spinner"></div>
+      </div>
+      <div class="row">
+         <div class="col-md-3">
+            <div class="card card-primary card-outline">
+               <div class="card-body box-profile" id="box-profile">
+                  @await Html.PartialAsync("_UserProfile", Model.User)
+               </div>
+            </div>
+         </div>
+         <div class="col-md-9">
+            @* <div class="card">
+               <div class="card-header bg-dark">
+                  <h3 class="card-title"><strong>Update user profile</strong></h3>
+               </div>
+               <div class="card-body" id="edit-body">
+                  @await Html.PartialAsync("_EditForm", Model)
+               </div>
+            </div> *@
+            <div class="card mt-9">
+               <div class="card-header bg-dark">
+                  <h3 class="card-title"><strong>Change Your Password</strong></h3>
+               </div>
+               <div class="card-body" id="password-body">
+                  @await Html.PartialAsync("_PasswordForm", Model.ChangePassword)
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<script>
+   AjaxPostProfile = form => {
+       try{
+           $.ajax({
+               type:"POST",
+               url: form.action,
+               data: new FormData(form),
+               contentType: false,
+               processData: false,
+               success: function(res){
+                   if(res.isValid){
+                       $('#box-profile').html(res.userProfile)
+                       $('#edit-body').html(res.editForm)
+                       notyf.success(res.message);
+                   }
+                   else{
+                       $('#edit-body').html(res.editForm)
+                       notyf.error(res.errors);
+                   }
+               },
+               error: function(err){
+                   console.log(err)
+               }
+           })
+           return false;
+       }
+       catch(ex){
+           console.log(ex);
+       }
+   }
+
+   AjaxPostPassword = form => {
+       try{
+           $.ajax({
+               type:"POST",
+               url: form.action,
+               data: new FormData(form),
+               contentType: false,
+               processData: false,
+               success: function(res){
+                   if(res.isValid){
+                       $('#password-body').html(res.html)
+                       notyf.success(res.message);
+                   }
+                   else{
+                       $('#password-body').html(res.html)
+                       notyf.error(res.errors);
+                   }
+               },
+               error: function(err){
+                   console.log(err)
+               }
+           })
+           return false;
+       }
+       catch(ex){
+           console.log(ex);
+       }
+   }
+</script>

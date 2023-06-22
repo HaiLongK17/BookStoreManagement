@@ -1,0 +1,109 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model BookViewModel
+
+@{
+   Layout = null;
+}
+
+<div class="row">
+   <div class="col-md-8" style="border-right: 1px solid #ced4da;">
+      <div class="form-group">
+         <label asp-for="CurrentBook.Title">Book Title</label>
+         <input type="text" asp-for="CurrentBook.Title" placeholder="Book Title" disabled class="form-control" />
+      </div>
+      <div class="form-group">
+         <label>Book Categories</label>
+         @Html.ListBoxFor(x => x.CurrentBook.CategoryIds,
+         new MultiSelectList(Model.Addition.Categories, "Id", "Name"),
+         new { @class = "select2", multiple = "multiple", id = "CategoryIDs" })
+      </div>
+      <div class="row">
+         <div class="col-6">
+            <div class="form-group">
+               <label>Book Author</label>
+               @Html.DropDownListFor(x => x.CurrentBook.AuthorId,
+               new SelectList(Model.Addition.Authors, "Id", "Name"),
+               new { @class = "select2", id = "AuthorId" })
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="form-group">
+               <label>Book Publisher</label>
+               @Html.DropDownListFor(x => x.CurrentBook.PublisherId,
+               new SelectList(Model.Addition.Publishers, "Id", "Name"),
+               new { @class = "select2", id = "PublisherId" })
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-5">
+            <div class="form-group">
+               <label>Price</label>
+               <input type="text" asp-for="CurrentBook.Price" disabled placeholder="Price of book" class="form-control" />
+            </div>
+         </div>
+         <div class="col-4">
+            <div class="form-group">
+               <label>Quantity</label>
+               <input type="number" asp-for="CurrentBook.Quantity" disabled placeholder="Quantity" class="form-control" />
+            </div>
+         </div>
+         <div class="col-3">
+            <div class="form-group">
+               <label>Active?</label>
+               <input type="checkbox" id="active-book" asp-for="CurrentBook.IsActice"
+                      data-onstyle="success" data-offstyle="danger" disabled data-toggle="toggle"
+                      data-on="Active" data-off="InActive" data-width="100">
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-6">
+            <div class="form-group">
+               <label>Create At</label>
+               <input class="form-control" disabled value="@Model.CreatedAt.ToLocalTime().ToString("MMMM, dd yyyy hh:mm tt")" />
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="form-group">
+               <label>Last Modified At</label>
+               @if (Model.LastModifiedAt == null)
+               {
+                  <input class="form-control" disabled value="No Data" />
+               }
+               else
+               {
+                  <input class="form-control" disabled value="@Convert.ToDateTime(Model.LastModifiedAt).ToLocalTime().ToString("MMMM, dd yyyy hh:mm tt")" />
+               }
+
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class=col-md-4 style="border-bottom: 1px solid #ced4da;">
+      <img class="img-fluid pad" id="BookCoverPreview" src="@Model.PhotoUrl" alt="Book cover" />
+   </div>
+</div>
+<div class="form-group">
+   <label>Content</label>
+   @Html.TextAreaFor(x => x.CurrentBook.Summary, new { @id = "SummernoteDescription" })
+</div>
+<div class="modal-footer text-right">
+   <button type="button" class="btn btn-secondary" onclick="hideModal('common-form-modal')">Close</button>
+</div>
+
+<script>
+   $(document).ready(function() {
+      $('#AuthorId').select2().prop('disabled', true);
+      $('#PublisherId').select2().prop('disabled', true);
+      $('#CategoryIDs').select2().prop('disabled', true);
+      $('#SummernoteDescription').summernote('disable', {
+          height: 150
+      });
+      //$('#SummernoteDescription').summernote('disable');
+      $('#active-book').bootstrapToggle({
+           on: 'Active',
+           off: 'InActive'
+      });
+   });
+</script>

@@ -1,0 +1,83 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model UserViewModel
+
+@{
+   Layout = null;
+}
+
+<form method="post" id="EditUserModal" asp-action="Edit" asp-controller="User" onsubmit="return AjaxPost(this);">
+   <div class="row">
+      <div class="col-md-8" style="border-right: 1px solid #ced4da;">
+         <input asp-for="User.Id" type="hidden">
+         <input asp-for="User.DisplayName" type="hidden">
+         <input asp-for="User.Email" type="hidden">
+         <input asp-for="User.PhoneNumber" type="hidden">
+         <input asp-for="User.Role" type="hidden">
+         <div class="form-group">
+            <label asp-for="UpdateUser.DisplayName"></label>
+            <input asp-for="UpdateUser.DisplayName" class="form-control">
+         </div>
+         <div class="form-group">
+            <label asp-for="UpdateUser.Email"></label>
+            <input asp-for="UpdateUser.Email" class="form-control">
+         </div>
+         <div class="row">
+            <div class="col-md-6">
+               <div class="form-group">
+                  <label asp-for="UpdateUser.PhoneNumber"></label>
+                  <input asp-for="UpdateUser.PhoneNumber" class="form-control">
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="form-group">
+                  <label asp-for="UpdateUser.Role"></label>
+                  @Html.DropDownListFor(x => x.UpdateUser.Role,
+                  new SelectList(Model.Roles, "Name", "Name"),
+                  new { @class = "select2", id = "SelectRole" })
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+            <label>User Avatar</label>
+            <div class="custom-file">
+               <input asp-for="UpdateUser.File" type="file" class="custom-file-input" id="UserAvatar">
+               <label class="custom-file-label" for="UserAvatar">Choose file</label>
+            </div>
+         </div>
+      </div>
+      <div class=col-md-4 style="border-bottom: 1px solid #ced4da;">
+         @if (string.IsNullOrEmpty(Model.User.Avatar))
+         {
+            <img class="img-fluid pad" id="UserAvatarPreview" src="https://res.cloudinary.com/dglgzh0aj/image/upload/v1634549506/BookStore/users/default/default_avatar.jpg" alt="User Avatar" />
+         }
+         else
+         {
+            <img class="img-fluid pad" id="UserAvatarPreview" src="@Model.User.Avatar" alt="Book cover" />
+         }
+      </div>
+   </div>
+</form>
+<div class="modal-footer text-right">
+   <button type="button" class="btn btn-secondary" onclick="hideModal('common-form-modal')">Close</button>
+   <button type="submit" class="btn btn-success" form="EditUserModal">Save Changes</button>
+</div>
+
+<script>
+   $(document).ready(function() {
+      $('#SelectRole').select2();
+   });
+</script>
+<script>
+   function readURL(input) {
+       if (input.files && input.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+               $('#UserAvatarPreview').attr('src', e.target.result);
+           }
+           reader.readAsDataURL(input.files[0]);
+       }
+   }
+   $("#UserAvatar").change(function () {
+       readURL(this);
+   });
+</script>

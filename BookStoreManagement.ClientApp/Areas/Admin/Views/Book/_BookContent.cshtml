@@ -1,0 +1,74 @@
+﻿@using BookStoreManagement.ClientApp.Models.DTO
+@model PaginatedResult<List<BookDto>>
+
+<div class="card-body table-responsive p-0">
+   @if (Model.Data.Count() > 0)
+   {
+      <table class="table table-bordered table-hover text-nowrap">
+         <thead class="bg-dark">
+            <tr class="text-white">
+               <th style="text-align: center; vertical-align: middle">#</th>
+               <th style="text-align: center; vertical-align: middle">Title</th>
+               <th style="text-align: center; vertical-align: middle">Categories</th>
+               <th style="text-align: center; vertical-align: middle">Author</th>
+               <th style="text-align: center; vertical-align: middle">Price</th>
+               <th style="text-align: center; vertical-align: middle">Status</th>
+               <th style="text-align: center; vertical-align: middle">Action</th>
+            </tr>
+         </thead>
+         <tbody>
+            @foreach (var item in Model.Data)
+            {
+               <tr>
+                  <td><img src="@item.PhotoUrl" style="max-height: 50px" /></td>
+                  <td style="text-align: center; vertical-align: middle">@item.Title</td>
+                  <td style="text-align: center; vertical-align: middle">@string.Join(", ", item.Categories.Select(x => x.Name))</td>
+                  <td style="text-align: center; vertical-align: middle">@item.AuthorDto.Name</td>
+                  <td style="text-align: center; vertical-align: middle">$@item.Price.ToString("G29")</td>
+                  <td class="project-state" style="text-align: center; vertical-align: middle">
+                     @if (item.IsActice == true)
+                     {
+                        <span class="badge badge-success">Active</span>
+                     }
+                     else
+                     {
+                        <span class="badge badge-danger">InActive</span>
+                     }
+                  </td>
+                  <td class="project-actions text-center" style="text-align: center; vertical-align: middle">
+                     <button class="btn btn-primary btn-sm mr-1 ml-1" title="Detail" type="button"
+                       onclick="showCommonModal('@Url.Action("Detail", "Book", new { id = item.Id }, Context.Request.Scheme)', 'Book Detail')">
+                        <i class="fas fa-eye"></i>
+                     </button>
+                     <button class="btn btn-info btn-sm mr-1 ml-1" title="Edit" type="button"
+                       onclick="showCommonModal('@Url.Action("AddOrEdit", "Book",
+                       new { id = item.Id, currentPage = Model.Pagination.CurrentPage }, Context.Request.Scheme)', 'Update Book')">
+                        <i class="fas fa-pencil-alt"></i>
+                     </button>
+                     <button class="btn btn-danger btn-sm mr-1 ml-1" title="Delete" type="button"
+                       onclick="showDeleteModal('@Url.Action("Delete", "Book", new { id = item.Id }, Context.Request.Scheme)', 'Delete Book')">
+                        <i class="fas fa-trash"></i>
+                     </button>
+                  </td>
+               </tr>
+            }
+         </tbody>
+      </table>
+   }
+   else
+   {
+      <p>Have no any book was added...</p>
+   }
+</div>
+<div class="card-footer clearfix">
+   <ul class="pagination pagination-sm m-0 float-right">
+      @if (Model.Pagination.TotalPages > 1)
+      {
+         for (int i = 1 ; i <= Model.Pagination.TotalPages ; i++)
+         {
+            <li class="page-item"><a class="page-link"
+                asp-controller="Book" asp-action="Index" asp-route-pageNumber="@i">@i</a></li>
+         }
+      }
+   </ul>
+</div>

@@ -1,0 +1,30 @@
+﻿@using BookStoreManagement.ClientApp.Models.DTO
+@model RegisterDto
+@{
+   ViewData["Title"] = "Register";
+}
+
+<form class="form" id="createAccount" method="post">
+   <h1 class="form-title">Create Account</h1>
+   <div class="form-message form-message--error"></div>
+   <div class="form-input-group">
+      <input type="text" asp-for="DisplayName" class="form-input" required autofocus placeholder="Display Name">
+      <div class="form-input-error-message"></div>
+   </div>
+   <div class="form-input-group">
+      <input type="text" asp-for="Email" class="form-input" required autofocus placeholder="Email Address">
+      <div class="form-input-error-message"></div>
+   </div>
+   <div class="form-input-group">
+      <input type="text" asp-for="PhoneNumber" class="form-input" required autofocus placeholder="Phone Number">
+      <div class="form-input-error-message"></div>
+   </div>
+   <div class="form-input-group">
+      <input type="password" asp-for="Password" class="form-input" required autofocus placeholder="Password">
+      <div class="form-input-error-message"></div>
+   </div>
+   <button class="form-button" type="submit" asp-area="Authentication" asp-controller="Auth" asp-action="Register">Continue</button>
+   <p class="form-text">
+      <a class="form-link" asp-area="Authentication" asp-controller="Auth" asp-action="Login">Already have an account? Sign in</a>
+   </p>
+</form>

@@ -1,0 +1,35 @@
+﻿@using BookStoreManagement.ClientApp.Models.ViewModels
+@model AuthorViewModel
+
+@{
+   Layout = null;
+}
+
+<form method="post" id="AddOrEditAuthorModal" asp-action="AddOrEdit" asp-controller="Author" onsubmit="return AjaxPost(this);">
+   <div class="form-group">
+   @if (Model.Author != null)
+   {
+      <input type="hidden" asp-for="@Model.Author.Id" />
+      <input type="hidden" asp-for="@Model.Author.Name" />
+      <input type="hidden" asp-for="@Model.Author.Description" />
+      <label asp-for="HandleAuthor.Name"></label>
+      <input asp-for="HandleAuthor.Name" required class="form-control">
+   }
+   </div>
+   <div class="form-group">
+      <label asp-for="HandleAuthor.Description"></label>
+      @Html.TextAreaFor(x => x.HandleAuthor.Description, new { @id = "SummernoteDescription" })
+   </div>
+</form>
+<div class="modal-footer text-right">
+   <button type="button" class="btn btn-secondary" onclick="hideModal('common-form-modal')">Close</button>
+   <button type="submit" class="btn btn-success" form="AddOrEditAuthorModal">Save Changes</button>
+</div>
+
+<script>
+   $(document).ready(function() {
+      $('#SummernoteDescription').summernote({
+          height: 150
+      });
+   });
+</script>
